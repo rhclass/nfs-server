@@ -98,7 +98,14 @@ else
     systemctl enable --now nfs-server
 fi
 
-# 6. Verify and Report Status
+# 6. Enable the NFS protocol throught the firewall
+
+if ! firewall-cmd --query-service=nfs &> /dev/null; then
+  firewall-cmd --add-service=nfs --permanent
+  firewall-cmd --reload
+fi
+
+# 7. Verify and Report Status
 echo -e "\n========================================="
 echo "[+] NFS Export Status Report (exportfs -v):"
 echo "========================================="
